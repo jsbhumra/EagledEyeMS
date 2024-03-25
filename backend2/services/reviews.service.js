@@ -144,21 +144,38 @@ module.exports = {
             }
         },
 
-		addUser: {
-			rest: "POST /adduser",
-			params: {
-				username: "string",
-				email: "string"
-			},
-			/** @param {Context} ctx */
-			async handler(ctx) {
-				const doc = await this.adapter.insert({username: ctx.params.username, email: ctx.params.email});
-				// const json = await this.transformDocuments(ctx, ctx.params, doc);
-				// await this.entityChanged("updated", json, ctx);
+		getReview: {
+			rest: "GET /getreviews",
+			async handler() {
+				const doc = await this.adapter.find()
 
-				return doc;
+				return doc
 			}
 		},
+
+		likeUnlike: {
+			rest: "POST /likeunlike",
+			params: {
+				userId: "string",
+				id: "string"
+			},
+			/** @param {Context} ctx */
+			async handler(ctx){
+				const doc1 = await this.adapter.find({query: {_id: ctx.params.id}})
+				console.log(doc1)
+				const doc = doc1[0]
+				console.log(doc)
+				if(doc.upvotes.includes(ctx.params.userId)){
+					const rev = await this.adapter.updateById(ctx.params.id, {$pull: {upvotes: ctx.params.userId}})
+
+					return rev
+				} else {
+					const rev = await this.adapter.updateById(ctx.params.id, {$push: {upvotes: ctx.params.userId}})
+
+					return rev
+				}
+			}
+		}
 
 		/**
 		 * Decrease the quantity of the product item.
