@@ -19,17 +19,17 @@ services:
     networks:
       - internal
 
-  greeter:
-    build:
-      context: .
-    image: backend2
-    env_file: docker-compose.env
-    environment:
-      SERVICES: greeter
-    depends_on:
-      - nats
-    networks:
-      - internal
+  # greeter:
+  #   build:
+  #     context: .
+  #   image: backend2
+  #   env_file: docker-compose.env
+  #   environment:
+  #     SERVICES: greeter
+  #   depends_on:
+  #     - nats
+  #   networks:
+  #     - internal
 
   # products:
   #   build:
@@ -44,7 +44,33 @@ services:
   #   networks:
   #     - internal
 
+  reviews:
+    build:
+      context: .
+    image: backend2
+    env_file: docker-compose.env
+    environment:
+      SERVICES: reviews
+    depends_on:
+      # - mongo
+      - nats
+    networks:
+      - internal
+
   users:
+    build:
+      context: .
+    image: backend2
+    env_file: docker-compose.env
+    environment:
+      SERVICES: users
+    depends_on:
+      # - mongo
+      - nats
+    networks:
+      - internal
+
+  usersReplica:
     build:
       context: .
     image: backend2

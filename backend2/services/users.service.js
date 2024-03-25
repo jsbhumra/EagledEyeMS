@@ -1,7 +1,7 @@
 "use strict";
 
 const DbMixin = require("../mixins/db.mixin");
-const User = require("../models/Users");
+const User = require("../models/user");
 /**
  * @typedef {import('moleculer').ServiceSchema} ServiceSchema Moleculer's Service Schema
  * @typedef {import('moleculer').Context} Context Moleculer's Context
@@ -75,18 +75,48 @@ module.exports = {
 		addUser: {
 			rest: "POST /adduser",
 			params: {
+				fname: "string",
 				username: "string",
-				email: "string"
+				email: "string",
+				password: "string",
+				// profilePic: "string",
+				role: "string"
 			},
 			/** @param {Context} ctx */
 			async handler(ctx) {
-				const doc = await this.adapter.insert({username: ctx.params.username, email: ctx.params.email});
+				const doc = await this.adapter.insert({
+					fname: ctx.params.fname,
+					username: ctx.params.username,
+					email: ctx.params.email,
+					password: ctx.params.password,
+					role: ctx.params.role
+				});
 				// const json = await this.transformDocuments(ctx, ctx.params, doc);
 				// await this.entityChanged("updated", json, ctx);
 
 				return doc;
 			}
 		},
+
+		reviewSubmit: {
+			rest: "POST /writereview",
+			params: {
+				userId: "string",
+				revId: "string"
+			},
+			/** @param {Context} ctx */
+			async handler(ctx) {
+				const doc = await this.adapter.updateById(ctx.params.userId, {
+					$push: {
+						reviews: ctx.params.revId,
+					}
+				});
+				// const json = await this.transformDocuments(ctx, ctx.params, doc);
+				// await this.entityChanged("updated", json, ctx);
+
+				return doc;
+			}
+		}
 
 		/**
 		 * Decrease the quantity of the product item.
