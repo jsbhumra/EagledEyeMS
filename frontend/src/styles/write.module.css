@@ -1,0 +1,22 @@
+.form{
+    margin: 20px 20% ;
+    
+}
+.heading{
+    margin-top: 15vh;
+    font-size: 2.5em;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    text-align: center;
+}
+.text{
+    font-size: x-large;
+}
+.inp{
+    vertical-align: text-bottom;
+    /* display: flex; */
+    /* margin-left: 5%; */
+}
+.desc{
+    vertical-align: top;
+}
