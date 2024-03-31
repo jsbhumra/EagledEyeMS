@@ -2,6 +2,11 @@
 
 const DbMixin = require("../mixins/db.mixin");
 const User = require("../models/user");
+const { MoleculerError } = require("moleculer").Errors;
+
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+
 /**
  * @typedef {import('moleculer').ServiceSchema} ServiceSchema Moleculer's Service Schema
  * @typedef {import('moleculer').Context} Context Moleculer's Context
@@ -73,28 +78,64 @@ module.exports = {
 		 * Increase the quantity of the product item.
 		 */
 		addUser: {
-			rest: "POST /adduser",
+			rest: "POST /signup",
 			params: {
 				fname: "string",
 				username: "string",
 				email: "string",
 				password: "string",
 				// profilePic: "string",
-				role: "string"
+				// role: "string"
 			},
 			/** @param {Context} ctx */
 			async handler(ctx) {
-				const doc = await this.adapter.insert({
-					fname: ctx.params.fname,
-					username: ctx.params.username,
-					email: ctx.params.email,
-					password: ctx.params.password,
-					role: ctx.params.role
-				});
-				// const json = await this.transformDocuments(ctx, ctx.params, doc);
-				// await this.entityChanged("updated", json, ctx);
 
-				return doc;
+					const existingUser = await this.adapter.find({query: { email: ctx.params.email }});
+					if (existingUser) throw new MoleculerError('User already exists',400);
+
+				try{
+
+					const hashedPassword = await bcrypt.hash(ctx.params.password, 12);
+					// const student = new Student({ fullName, email, password: hashedPassword });
+
+					const doc = await this.adapter.insert({
+						fname: ctx.params.fname,
+						username: ctx.params.username,
+						email: ctx.params.email,
+						password: hashedPassword,
+						// role: ctx.params.role
+					});
+					// const json = await this.transformDocuments(ctx, ctx.params, doc);
+					// await this.entityChanged("updated", json, ctx);
+
+					return ({message: 'Signup successful!'});
+				} catch(err){
+					throw new MoleculerError(err);
+				}
+			}
+		},
+
+		loginUser: {
+			rest: "POST /login",
+			params: {
+				email: "string",
+				password: "string",
+			},
+			/** @param {Context} ctx */
+			async handler(ctx) {
+				const student = await this.adapter.find({query: { email: ctx.params.email }});
+				if (!student) throw new MoleculerError('Invalid email or password email not found',400);
+
+				const isPasswordValid = await bcrypt.compare(ctx.params.password, student.password);
+				if (!isPasswordValid) return res.status(400).json({ message: 'Invalid email or password password doesnt match' });
+
+				try{
+					const token = jwt.sign({ userId: student._id }, 'your_secret_key');
+					return({"x-auth-token": token});
+				}catch(err){
+					throw new MoleculerError(err);
+				}
+
 			}
 		},
 

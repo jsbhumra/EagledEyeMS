@@ -161,18 +161,22 @@ module.exports = {
 			},
 			/** @param {Context} ctx */
 			async handler(ctx){
-				const doc1 = await this.adapter.find({query: {_id: ctx.params.id}})
-				console.log(doc1)
-				const doc = doc1[0]
-				console.log(doc)
-				if(doc.upvotes.includes(ctx.params.userId)){
-					const rev = await this.adapter.updateById(ctx.params.id, {$pull: {upvotes: ctx.params.userId}})
+				try{
+					const doc1 = await this.adapter.find({query: {_id: ctx.params.id}})
+					console.log(doc1)
+					const doc = doc1[0]
+					console.log(doc)
+					if(doc.upvotes.includes(ctx.params.userId)){
+						const rev = await this.adapter.updateById(ctx.params.id, {$pull: {upvotes: ctx.params.userId}})
 
-					return rev
-				} else {
-					const rev = await this.adapter.updateById(ctx.params.id, {$push: {upvotes: ctx.params.userId}})
+						return rev
+					} else {
+						const rev = await this.adapter.updateById(ctx.params.id, {$push: {upvotes: ctx.params.userId}})
 
-					return rev
+						return rev
+					}
+				}catch(err){
+					throw new MoleculerError(err)
 				}
 			}
 		}
