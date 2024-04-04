@@ -24,7 +24,7 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Please enter your email"],
         minLength: [6, "Your password must be at least 6 characters long"],
-        select: false, //dont send back password after request
+        // select: false, //dont send back password after request
     },
     profilePic: {
         type: String,
@@ -57,18 +57,18 @@ const userSchema = new mongoose.Schema({
 })
 
 // ENCRYPTION 
-userSchema.pre('save', async function(next){
+// userSchema.pre('save', async function(next){
 
-    if(!this.isModified('password')){
-        next()
-    }
-    this.password = await bcrypt.hash(this.password, 10)
-    next()
-})
+//     if(!this.isModified('password')){
+//         next()
+//     }
+//     this.password = await bcrypt.hash(this.password, 10)
+//     next()
+// })
 
-userSchema.methods.comparePassword = async function(enteredPassword){
-    return await bcrypt.compare(enteredPassword, this.password)
-}
+// userSchema.methods.comparePassword = async function(enteredPassword){
+//     return await bcrypt.compare(enteredPassword, this.password)
+// }
 
 
 const User =  mongoose.model('User', userSchema, 'users')
