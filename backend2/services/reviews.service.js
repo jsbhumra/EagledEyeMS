@@ -3,6 +3,7 @@
 const DbMixin = require("../mixins/db.mixin");
 const Review = require("../models/review");
 const { MoleculerError } = require("moleculer").Errors;
+const auth = require('../middleware/auth')
 /**
  * @typedef {import('moleculer').ServiceSchema} ServiceSchema Moleculer's Service Schema
  * @typedef {import('moleculer').Context} Context Moleculer's Context
@@ -94,6 +95,9 @@ module.exports = {
             // },
             /** @param {Context} ctx */
             async handler(ctx) {
+				const valid = await auth(ctx.meta.authToken);
+				if(valid.status!=200) throw new MoleculerError(valid.message,403)
+
                 // const newResponse = await getSentiment()
                 // const descData = await newResponse.json();
                 // var score = descData.score;
@@ -146,9 +150,11 @@ module.exports = {
 
 		getReview: {
 			rest: "GET /getreviews",
-			async handler() {
-				const doc = await this.adapter.find()
+			async handler(ctx) {
+				const valid = await auth(ctx.meta.authToken);
+				if(valid.status!=200) throw new MoleculerError(valid.message,403)
 
+				const doc = await this.adapter.find()
 				return doc
 			}
 		},
@@ -162,6 +168,9 @@ module.exports = {
 			/** @param {Context} ctx */
 			async handler(ctx){
 				try{
+					const valid = await auth(ctx.meta.authToken);
+					if(valid.status!=200) throw new MoleculerError(valid.message,403)
+
 					const doc1 = await this.adapter.find({query: {_id: ctx.params.id}})
 					console.log(doc1)
 					const doc = doc1[0]

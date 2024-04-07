@@ -3,6 +3,7 @@
 const DbMixin = require("../mixins/db.mixin");
 const User = require("../models/user");
 const { MoleculerError } = require("moleculer").Errors;
+const auth = require('../middleware/auth')
 
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
@@ -154,6 +155,7 @@ module.exports = {
 			},
 			/** @param {Context} ctx */
 			async handler(ctx) {
+
 				const doc = await this.adapter.updateById(ctx.params.userId, {
 					$push: {
 						reviews: ctx.params.revId,
@@ -164,7 +166,21 @@ module.exports = {
 
 				return doc;
 			}
-		}
+		},
+
+		sampleGet: {
+			rest: "GET /sample",
+			// params: {
+			// 	authToken: "string"
+			// },
+			async handler(ctx) {
+				const valid = await auth(ctx.meta.authToken);
+				if(valid.status!=200) throw new MoleculerError(valid.message,400)
+				// const doc = await this.adapter.find()
+
+				// return doc
+			}
+		},
 
 		/**
 		 * Decrease the quantity of the product item.

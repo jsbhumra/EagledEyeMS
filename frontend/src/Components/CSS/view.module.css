@@ -1,0 +1,14 @@
+.box{
+    background-color: rgb(181, 181, 181);
+    width: 255px;
+    height: 280px;
+    margin-left: 1.75vw;
+    margin-right: 1.75vw;
+    display: block;
+    margin-bottom: 2vh;
+    margin-top: 2vh;
+}
+.cover{
+    height: 300px;
+    max-width: 100%;
+}

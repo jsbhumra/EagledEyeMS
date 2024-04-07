@@ -36,6 +36,8 @@ module.exports = {
 				// Route-level Express middlewares. More info: https://moleculer.services/docs/0.14/moleculer-web.html#Middlewares
 				use: [],
 
+				cors: { origin: "*", methods: ["GET", "POST", "OPTIONS", "PUT"], allowedHeaders: "*", exposedHeaders: "*", credentials: false, maxAge: 3600 },
+
 				// Enable/disable parameter merging method. More info: https://moleculer.services/docs/0.14/moleculer-web.html#Disable-merging
 				mergeParams: true,
 
@@ -60,11 +62,15 @@ module.exports = {
 				 * @param {IncomingRequest} req
 				 * @param {ServerResponse} res
 				 * @param {Object} data
-				 *
+				 */
 				onBeforeCall(ctx, route, req, res) {
 					// Set request headers to context meta
-					ctx.meta.userAgent = req.headers["user-agent"];
-				}, */
+					console.log(req.headers)
+					console.log("---------")
+					console.log(req.headers["x-auth-token"]);
+					ctx.meta.authToken = req.headers["x-auth-token"];
+					console.log(ctx.meta.authToken)
+				},
 
 				/**
 				 * After call hook. You can modify the data.
