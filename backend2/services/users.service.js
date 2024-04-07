@@ -168,14 +168,15 @@ module.exports = {
 			}
 		},
 
-		sampleGet: {
-			rest: "GET /sample",
+		getUser: {
+			rest: "GET /me",
 			// params: {
 			// 	authToken: "string"
 			// },
 			async handler(ctx) {
 				const valid = await auth(ctx.meta.authToken);
 				if(valid.status!=200) throw new MoleculerError(valid.message,400)
+				return(valid.message);
 				// const doc = await this.adapter.find()
 
 				// return doc

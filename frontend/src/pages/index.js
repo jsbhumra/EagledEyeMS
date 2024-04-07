@@ -8,12 +8,16 @@ import el3 from '../public/Ellipse 3.png'
 import styles from '../styles/styles.module.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useState, useEffect } from 'react';
+import Cookies from "js-cookie";
 // import { useSession, signOut, signIn, signUp } from 'next-auth/react';
 
 export default function Home(){
   const [clientWindowHeight, setClientWindowHeight] = useState("");
   const [backgroundTransparency, setBackgroundTransparency] = useState(0);
   const [linkColor, setaColor] = useState('black');
+  const [loggedIn, setLoggedIn] = useState(
+    true && Cookies.get("token")
+  );
 
     const handleScroll = () => {
       setClientWindowHeight(window.scrollY);
@@ -35,6 +39,11 @@ export default function Home(){
       }, [clientWindowHeight]);
     // const { data: session } = useSession();
 
+    async function signOut() {
+      Cookies.remove("token");
+      window.location.href = '/'
+    }
+
 
     return (
       <div className={styles.upperbody}>
@@ -48,29 +57,32 @@ export default function Home(){
             </button>
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
               <ul className={`${styles.ull} navbar-nav ms-auto mb-2 mb-lg-0 me-3`}>
-                <li className="nav-item mx-2">
+                {/* <li className="nav-item mx-2">
                   <a className="nav-link active" aria-current="page" href="/opensearch">Browse</a>
                 </li>
-                {/* <li className="nav-item mx-2 ">
+                <li className="nav-item mx-2 ">
                   <a className="nav-link active" aria-current="page" href="#">About Us</a>
-                </li> */}
+                </li>
                 <li className="nav-item mx-2">
                   <a className="nav-link active" aria-current="page" href="mailto:praneel.bora@somaiya.edu">Contact</a>
-                  
-                </li>
-                {/* {!session?<>
+                </li> */}
+
+                {!loggedIn?<>
                 <li className="nav-item mx-2">
-                  <a className="nav-link active" aria-current="page" href="/newlogin">Log In</a>                  
+                  <a className="nav-link active" aria-current="page" href="/login">Log In</a>                  
                 </li> 
                 <li className="nav-item mx-2">
-                  <a className="nav-link active" aria-current="page" href="/newsignup">Sign Up</a>                  
+                  <a className="nav-link active" aria-current="page" href="/signup">Sign Up</a>                  
                 </li></>:<>
                 <li className="nav-item mx-2">
-                  <a className="nav-link active" aria-current="page" href="/myacc">Hi {session?.user?.username}</a>                  
-                </li> 
+                  <a className="nav-link active" aria-current="page" href="/search">Browse</a>
+                </li>
+                <li className="nav-item mx-2">
+                  <a className="nav-link active" aria-current="page" href="mailto:praneel.bora@somaiya.edu">Contact</a>
+                </li>
                 <li className="nav-item mx-2">
                   <a className="nav-link active" aria-current="page" href='/' onClick={() => signOut()}>Sign Out</a>                  
-                </li></>} */}
+                </li></>}
                 
 
                 
@@ -93,7 +105,7 @@ export default function Home(){
           <input className={styles.searchbar} type="text" placeholder="Hotels, Places, Landmarks etc" />
         </section> */}
         
-    <style jsx global>{`
+    <style>{`
     html, body {
       overflow: hidden;
       position: relative;

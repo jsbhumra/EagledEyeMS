@@ -148,7 +148,7 @@ module.exports = {
             }
         },
 
-		getReview: {
+		getReviews: {
 			rest: "GET /getreviews",
 			async handler(ctx) {
 				const valid = await auth(ctx.meta.authToken);
@@ -159,10 +159,23 @@ module.exports = {
 			}
 		},
 
+		getReview: {
+			rest: "POST /getreview",
+			params: {
+				id: "string"
+			},
+			async handler(ctx) {
+				const valid = await auth(ctx.meta.authToken);
+				if(valid.status!=200) throw new MoleculerError(valid.message,403)
+
+				const doc = await this.adapter.find({query: { _id: ctx.params.id }})
+				return doc[0]
+			}
+		},
+
 		likeUnlike: {
 			rest: "POST /likeunlike",
 			params: {
-				userId: "string",
 				id: "string"
 			},
 			/** @param {Context} ctx */
@@ -170,17 +183,18 @@ module.exports = {
 				try{
 					const valid = await auth(ctx.meta.authToken);
 					if(valid.status!=200) throw new MoleculerError(valid.message,403)
+					const userId = valid.message._id
 
 					const doc1 = await this.adapter.find({query: {_id: ctx.params.id}})
 					console.log(doc1)
 					const doc = doc1[0]
 					console.log(doc)
-					if(doc.upvotes.includes(ctx.params.userId)){
-						const rev = await this.adapter.updateById(ctx.params.id, {$pull: {upvotes: ctx.params.userId}})
+					if(doc.upvotes.includes(userId)){
+						const rev = await this.adapter.updateById(ctx.params.id, {$pull: {upvotes: userId}})
 
 						return rev
 					} else {
-						const rev = await this.adapter.updateById(ctx.params.id, {$push: {upvotes: ctx.params.userId}})
+						const rev = await this.adapter.updateById(ctx.params.id, {$push: {upvotes: userId}})
 
 						return rev
 					}
