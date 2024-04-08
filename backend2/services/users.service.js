@@ -183,6 +183,27 @@ module.exports = {
 			}
 		},
 
+		updateProfile: {
+			rest: "POST /update",
+			params: {
+				img: "string",
+			},
+			/** @param {Context} ctx */
+			async handler(ctx) {
+				const valid = await auth(ctx.meta.authToken);
+				if(valid.status!=200) throw new MoleculerError(valid.message,400)
+				const userId = valid.message._id
+
+				const doc = await this.adapter.updateById(userId, {
+						profilePic: ctx.params.img,
+				});
+				// const json = await this.transformDocuments(ctx, ctx.params, doc);
+				// await this.entityChanged("updated", json, ctx);
+
+				return doc;
+			}
+		},
+
 		/**
 		 * Decrease the quantity of the product item.
 		 */

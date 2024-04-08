@@ -73,7 +73,7 @@ export default function VReview({ rid, dashImg, title, desc, rating, eagleScore,
                     </div>
                     <ul className="list-group list-group-flush">
                       <li className="list-group-item"><b>Rating:</b> {rating}{/*<i className="bi bi-star-fill"></i> <i className="bi bi-star-fill"></i> <i className="bi bi-star-fill"></i> <i className="bi bi-star"></i> <i className="bi bi-star"></i>*/}
-                      {/* <span style={{'float':'right'}}><b>EagleScore:</b> <span style={{'padding':'3px','borderRadius':'10px','backgroundColor': `${sentiment}`}}> {eagleScore} </span><i className="bi bi-8-circle-fill"></i></span> */}
+                      <span style={{'float':'right'}}><b>EagleScore:</b> <span style={{'padding':'3px','borderRadius':'10px','backgroundColor': `${sentiment}`}}> {eagleScore} </span></span>
                       </li>
                       <li className="list-group-item"><b>Country:</b> {country} <span style={{'float':'right'}}><b>City:</b> {city}</span></li>
                       <li className="list-group-item">

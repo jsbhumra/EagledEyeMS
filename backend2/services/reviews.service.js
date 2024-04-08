@@ -78,7 +78,6 @@ module.exports = {
         addReview: {
             rest: "POST /addreview",
             params: {
-                id: "string",
                 title: "string",
                 img: "string",
                 desc: "string",
@@ -86,7 +85,9 @@ module.exports = {
                 country: "string",
                 city: "string",
                 hotel: "string",
-                // traveledAt: "date",
+                date: "string",
+				score: "number",
+				mult: "string"
             },
             // async getSentiment(){
             //     return await fetch('http://jsbhumra.pythonanywhere.com/review?desc='+ctx.params.desc,{
@@ -97,32 +98,21 @@ module.exports = {
             async handler(ctx) {
 				const valid = await auth(ctx.meta.authToken);
 				if(valid.status!=200) throw new MoleculerError(valid.message,403)
+				const userId = valid.message._id
 
                 // const newResponse = await getSentiment()
                 // const descData = await newResponse.json();
                 // var score = descData.score;
-                var score = 0.53
-                var mult="";
+                var score = ctx.params.score
+                var mult = ctx.params.mult;
                 // if(descData.sentiment=='Positive'){
                 //     mult="";
                 // } else {
                 //     mult="- ";
                 // }
                 var eagScore = mult+score*100+"%";
-                // let r = {
-                //     userId: ctx.params.id,
-                //     title: ctx.params.title,
-                //     dashImg: ctx.params.img,
-                //     desc: ctx.params.desc,
-                //     rating: ctx.params.rating,
-                //     country: ctx.params.country,
-                //     city: ctx.params.city,
-                //     hotel: ctx.params.hotel,
-                //     traveledAt: new Date(Date.now()),
-                //     eagleScore: eagScore
-                // }
                 const doc = await this.adapter.insert({
-                    userId: ctx.params.id,
+                    userId: userId,
                     title: ctx.params.title,
                     dashImg: ctx.params.img,
                     desc: ctx.params.desc,
@@ -130,14 +120,14 @@ module.exports = {
                     country: ctx.params.country,
                     city: ctx.params.city,
                     hotel: ctx.params.hotel,
-                    traveledAt: new Date(Date.now()),
+                    traveledAt: ctx.params.date,
                     eagleScore: eagScore
                 });
 				// console.log(doc)
 				if(doc){
 					console.log('ok')
 					try{
-						const user = await ctx.call('users.reviewSubmit',{userId:ctx.params.id,revId:doc._id})
+						const user = await ctx.call('users.reviewSubmit',{userId:userId,revId:doc._id})
 						return {doc,user}
 					} catch(err) {
 						console.log(err)
@@ -155,6 +145,18 @@ module.exports = {
 				if(valid.status!=200) throw new MoleculerError(valid.message,403)
 
 				const doc = await this.adapter.find()
+				return doc
+			}
+		},
+
+		getMyReviews: {
+			rest: "GET /getmyreviews",
+			async handler(ctx) {
+				const valid = await auth(ctx.meta.authToken);
+				if(valid.status!=200) throw new MoleculerError(valid.message,403)
+				const userId = valid.message._id
+
+				const doc = await this.adapter.find({query: { userId: userId }})
 				return doc
 			}
 		},
