@@ -4,25 +4,6 @@ import main from '../styles/main.module.css'
 import { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
 
-// export async function getServerSideProps(context) {
-//   dbConnect();
-//   let sess = await getSession(context);
-//   // console.log(sess)
-//   let reviews = await Review.find({ userId: sess?.user?._id }).populate('userId')
-//   let reviewNum = reviews.length
-//   let upvotes = 0;
-//   for (let i = 0; i < reviews.length; i++){
-//     upvotes += reviews[i].upvotes.length
-//   }
-//   let user = await User.find({ _id: sess?.user?._id })
-//   // console.log(user)
-//   //   return data;
-//   return {
-//       props: {reviewNum: reviewNum, upvotes: upvotes, updatedUser: JSON.parse(JSON.stringify(user))}
-//   }
-// }
-
-
 export default function MyAcc(){
     const [isLoading, setIsLoading] = useState(true);
     const [imageSrc, setImageSrc] = useState();
@@ -117,11 +98,6 @@ export default function MyAcc(){
 
         reader.readAsDataURL(changeEvent.target.files[0]);
     }
-
-    // const reloadSession = () => {
-    //   const event = new Event("visibilitychange");
-    //   document.dispatchEvent(event);
-    // };
 
     async function signOut(){
         Cookies.remove("token")

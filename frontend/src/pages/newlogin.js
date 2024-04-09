@@ -1,11 +1,9 @@
 import { useRef, useState, useEffect } from 'react';
-//document.body.style.overflow = "hidden";
 import 'bootstrap/dist/css/bootstrap.css';
 import Cookies from "js-cookie";
 import styles from '../styles/form.module.css';
 import Background2 from '../Components/bg2';
 
-// This gets handled by the [...nextauth] endpoint
 function LogInForm() {
   const [isLoading, setIsLoading] = useState(true);
   const emailInputRef = useRef();
@@ -29,15 +27,7 @@ function LogInForm() {
     return data;
   }
 
-  // check if logged in and redirect to home page if so
   useEffect(() => {
-    // getSession().then((session) => {
-    //   if (session) {
-    //     router.back()
-    //   } else {
-    //     setIsLoading(false);
-    //   }
-    // });
     setIsLoading(false)
   },[]);
 

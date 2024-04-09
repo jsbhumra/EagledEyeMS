@@ -2,7 +2,6 @@
 
 const fs = require("fs");
 const DbService	= require("moleculer-db");
-const User = require("../models/Users");
 
 /**
  * @typedef {import('moleculer').ServiceSchema} ServiceSchema Moleculer's Service Schema

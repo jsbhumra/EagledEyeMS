@@ -1,6 +1,3 @@
-//document.body.style.overflowX = "hidden";
-// import Image from 'next/image'; 
-// import a from 'next/link';
 import logo from '../public/logo.png';
 import el1 from '../public/Ellipse 1.png'
 import el2 from '../public/Ellipse 2.png'
@@ -9,7 +6,6 @@ import styles from '../styles/styles.module.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
-// import { useSession, signOut, signIn, signUp } from 'next-auth/react';
 
 export default function Home(){
   const [clientWindowHeight, setClientWindowHeight] = useState("");
@@ -37,7 +33,6 @@ export default function Home(){
           setaColor('black');
         }
       }, [clientWindowHeight]);
-    // const { data: session } = useSession();
 
     async function signOut() {
       Cookies.remove("token");
@@ -57,15 +52,6 @@ export default function Home(){
             </button>
             <div className="collapse navbar-collapse" id="navbarSupportedContent">
               <ul className={`${styles.ull} navbar-nav ms-auto mb-2 mb-lg-0 me-3`}>
-                {/* <li className="nav-item mx-2">
-                  <a className="nav-link active" aria-current="page" href="/opensearch">Browse</a>
-                </li>
-                <li className="nav-item mx-2 ">
-                  <a className="nav-link active" aria-current="page" href="#">About Us</a>
-                </li>
-                <li className="nav-item mx-2">
-                  <a className="nav-link active" aria-current="page" href="mailto:praneel.bora@somaiya.edu">Contact</a>
-                </li> */}
 
                 {!loggedIn?<>
                 <li className="nav-item mx-2">
@@ -100,10 +86,6 @@ export default function Home(){
           <img className={styles.el2} src={el2} alt="Ellipse2" />
           <img className={styles.el3} src={el3} alt="Ellipse3" />
         </section>
-        {/* SEARCH SECTION  */}
-        {/* <section className={styles.search} id="browse">
-          <input className={styles.searchbar} type="text" placeholder="Hotels, Places, Landmarks etc" />
-        </section> */}
         
     <style>{`
     html, body {
@@ -114,4 +96,3 @@ export default function Home(){
       </div>
     );
   }
-{/* <styles */}

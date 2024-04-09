@@ -5,16 +5,6 @@ import TextareaAutosize from 'react-textarea-autosize';
 import { useState, useEffect, useRef } from 'react';
 import Cookies from "js-cookie";
 
-// export async function getServerSideProps(context) {
-//   dbConnect();
-//   let sess = await getSession(context);
-//   let user = await User.find({ _id: sess?.user?._id })
-//   return {
-//       props: {updatedUser: JSON.parse(JSON.stringify(user))}
-//   }
-// }
-
-
 export default function WriteReview(){
     const [loggedIn,setLoggedIn] = useState(true && Cookies.get("token"))
     const [updatedUser,setUpdatedUser] = useState()
@@ -27,6 +17,7 @@ export default function WriteReview(){
   const countryInputRef = useRef();
   const cityInputRef = useRef();
   const hotelInputRef = useRef();
+  
   // check if logged in and redirect to login page if so
   useEffect(() => {
         if(!loggedIn){
@@ -147,7 +138,6 @@ export default function WriteReview(){
         setConfirmAlert('Submitted successfully!');
         console.log('success');
         window.location.href = '/myreviews'
-        //reloadSession();
       } catch (error) {
         console.log(error)
       }

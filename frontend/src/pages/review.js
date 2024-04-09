@@ -4,19 +4,6 @@ import css from '../styles/fr.module.css'
 import { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
 
-// export async function getServerSideProps(context) {
-//   // const router = useRouter()
-//   const rid = context.query.id;
-//   // console.log(rid)
-//   dbConnect();
-//   let review = await Review.findById(rid).populate('userId')
-//   //   return data;
-//   return {
-//       props: {review: JSON.parse(JSON.stringify(review))}
-//     // props: {review}
-//     }
-// }
-
 export default function FReview()
 {   
     const [isLoading, setIsLoading] = useState(true);
@@ -72,8 +59,6 @@ export default function FReview()
     return <p>Loading...</p>;
 }
 
-  // const newdate = createdAt
-
     async function onClose()
     {
     //   router.back();
@@ -103,12 +88,9 @@ export default function FReview()
          {/* <p className="mt-2" > <span style={{float: 'left',marginLeft:'2vw'}}><b>Username: </b>{reviewer}</span><span style={{float: 'right',marginRight:'2vw'}}><b>Date: </b>{date}</span> </p> */}
          <br/>
          <p className="" > <span style={{float: 'left',marginLeft:'1vw'}}><b>Rating: </b>{review?.rating}</span><span style={{float: 'right',marginRight:'1vw'}}><b>Date of Travel: </b>{travelDate}</span> </p>
-         {/* <p className="mt-2" > <span style={{float: 'left',marginLeft:'2vw'}}><b>Rating: </b>{rating}</span><span style={{float: 'right',marginRight:'2vw'}}><b>EagleScore: </b> {eagleScore}</span> </p> */}
          <br/>
          <p className="" > <span style={{float: 'left',marginLeft:'1vw'}}><b>Place: </b>{review?.hotel}, {review?.city}, {review?.country}</span><span style={{float: 'right',marginRight:'1vw'}}><b>EagleScore: </b>{review?.eagleScore}</span> </p>
 
-         {/* <p className='mt-2' style={{float: 'left',marginLeft:'2vw'}}><b>Place: </b>{Hotel}, {city}, {country}</p> */}
-         {/* <p className='mt-2' style={{float: 'left',marginLeft:'1vw'}}><b>Place: </b>{review.hotel}, {review.city}, {review.country}</p> */}
          <br/>
          {/* <br/> */}
          <hr style={{borderColor: '#35A24E' , opacity:'0.8'}}/>

@@ -1,9 +1,7 @@
 const jwt = require('jsonwebtoken');
 const User = require("../models/user");
-const mongoose = require('mongoose');
 
 module.exports = async function (token) {
-    // const token = req.headers['x-auth-token'];
     if (!token) return({status: 401, message: 'Access denied. No token provided.'});
 
     try{

@@ -1,29 +1,8 @@
 import { useRef, useState, useEffect } from 'react';
-//document.body.style.overflow = "hidden";
 import 'bootstrap/dist/css/bootstrap.css';
 import styles from '../styles/form.module.css';
 import Background2 from '../Components/bg2';
 
-// This goes to our signup API endpoint
-async function createUser(fname, username, email, password) {
-    const response = await fetch('http://localhost:3000/api/users/signup', {
-      method: 'POST',
-      body: JSON.stringify({ fname, username, email, password }),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    });
-  
-    const data = await response.json();
-  
-    if (!response.ok) {
-      throw new Error(data.message || 'Something went wrong!');
-    }
-  
-    return data;
-  }
-
-// This gets handled by the [...nextauth] endpoint
 function SignUpForm() {
   const [isLoading, setIsLoading] = useState(true);
   const [registered, setRegistered] = useState(false);
@@ -39,18 +18,30 @@ function SignUpForm() {
 		window.location.href = '/login';
 	}
 	else setIsLoading(false)
-    // getSession().then((session) => {
-    //   if (session) {
-    //     window.close();
-    //   } else {
-    //     setIsLoading(false);
-    //   }
-    // });
   },[registered]);
 
   if (isLoading) {
     return <p>Loading...</p>;
   }
+
+  // This goes to our signup API endpoint
+	async function createUser(fname, username, email, password) {
+		const response = await fetch('http://localhost:3000/api/users/signup', {
+		method: 'POST',
+		body: JSON.stringify({ fname, username, email, password }),
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		});
+	
+		const data = await response.json();
+	
+		if (!response.ok) {
+		throw new Error(data.message || 'Something went wrong!');
+		}
+	
+		return data;
+	}
 
   async function submitHandler(event) {
     event.preventDefault();
@@ -59,8 +50,6 @@ function SignUpForm() {
     const enteredUsername = usernameInputRef.current.value;
     const enteredEmail = emailInputRef.current.value;
     const enteredPassword = passwordInputRef.current.value;
-
-    // optional: Add validation here
 
       try {
         const result = await createUser(enteredFname, enteredUsername, enteredEmail, enteredPassword);
@@ -104,11 +93,6 @@ function SignUpForm() {
 							<label htmlFor="pass">Password</label>
 						</div>
 						
-						{/* DOB  */}
-						{/* <div className="form-floating mb-3">
-							<input type="date" className="form-control" id="bdate" placeholder="date" required />
-							<label htmlFor="bdate">Date of Birth</label>
-						</div> */}
 						
 						<div style={{textAlign: 'center'}}>          
 							<input className="btn btn-outline-success" type="submit" value="Sign Up" />

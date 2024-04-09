@@ -5,17 +5,6 @@ import { useState, useEffect, useRef } from 'react';
 import VReview from '../Components/View_Review';
 import Cookies from "js-cookie";
 
-// export async function getServerSideProps(context) {
-//     dbConnect();
-//     let sess = await getSession(context);
-//     let reviews = await Review.find().populate('userId')
-//     let user = await User.find({ _id: sess?.user?._id })
-//     //   return data;
-//     return {
-//         props: {reviews: JSON.parse(JSON.stringify(reviews)), updatedUser: JSON.parse(JSON.stringify(user))}
-//     }
-// }
-
 export default function Search(){
     const [isLoading, setIsLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('')
@@ -25,6 +14,7 @@ export default function Search(){
     const [updatedUser,setUpdatedUser] = useState()
     const [reviews,setReviews] = useState([])
     const searchRef = useRef();
+
     // check if logged in and redirect to login page if so
     useEffect(() => {
         if(!loggedIn){
@@ -52,7 +42,6 @@ export default function Search(){
             throw new Error(data.message || 'Something went wrong!');
           }
           setReviews(data)
-        //   return data;
     }
 
     async function getUser(){

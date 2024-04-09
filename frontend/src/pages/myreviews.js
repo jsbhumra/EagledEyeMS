@@ -5,33 +5,6 @@ import main from '../styles/main.module.css';
 import { useState, useEffect } from 'react';
 import Cookies from "js-cookie";
 
-// export async function prevReviews() {
-//     const response = await fetch('/api/getReviews', {
-//         method: 'GET'
-//       });
-    
-//       const data = await response.json();
-    
-//       if (!response.ok) {
-//         throw new Error(data.message || 'Something went wrong!');
-//       }
-
-//     //   setArr(data)
-//       return data;
-// }
-
-// export async function getServerSideProps(context) {
-//     dbConnect();
-//     let sess = await getSession(context);
-//     // console.log(sess)
-//     let reviews = await Review.find({ userId: updatedUser?._id }).populate('userId')
-//     let user = await User.find({ _id: updatedUser?._id })
-//     //   return data;
-//     return {
-//         props: {reviews: JSON.parse(JSON.stringify(reviews)), updatedUser: JSON.parse(JSON.stringify(user))}
-//     }
-// }
-
 export default function MyReviews(){
     const [isLoading, setIsLoading] = useState(true);
     const [loggedIn,setLoggedIn] = useState(true && Cookies.get("token"))
@@ -94,8 +67,6 @@ export default function MyReviews(){
         return <p>Loading...</p>;
     }
 
-    // console.log(reviews);
-
     return(
         <>
             <Dashboard profileImg={updatedUser?.profilePic}/>
@@ -103,7 +74,6 @@ export default function MyReviews(){
             <div className={main.main1}>
             <div className="row my-1">
             {reviews.sort((a, b) => a.createdAt < b.createdAt ? 1 : -1).map((review) => {
-                // if (review.userId._id===newId){
                 return(
                 <VReview key={review._id} rid={review._id} dashImg={review.dashImg} title={review.title} reviewer={review.userId.username} desc={review.desc} rating={review.rating} eagleScore={review.eagleScore} country={review.country} city={review.city} upvotes={review.upvotes.length} upvoted={review.upvotes.includes(newId)} createdAt={review.createdAt} />
             )})}
