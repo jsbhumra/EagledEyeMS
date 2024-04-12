@@ -26,7 +26,7 @@ function SignUpForm() {
 
   // This goes to our signup API endpoint
 	async function createUser(fname, username, email, password) {
-		const response = await fetch('http://localhost:3000/api/users/signup', {
+		const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/signup`, {
 		method: 'POST',
 		body: JSON.stringify({ fname, username, email, password }),
 		headers: {

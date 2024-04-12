@@ -30,7 +30,7 @@ export default function WriteReview(){
 
     async function getUser(){
         const token = Cookies.get("token")
-        const response = await fetch('http://localhost:3000/api/users/me', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/me`, {
             method: 'GET',
             headers: {
             'Content-Type': 'application/json',
@@ -62,7 +62,7 @@ export default function WriteReview(){
         } else {
             mult="- ";
         }
-        const response = await fetch('http://localhost:3000/api/reviews/addreview', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reviews/addreview`, {
           method: 'POST',
           body: JSON.stringify({ title, img, desc, rating, country, city, hotel, date, score, mult }),
           headers: {

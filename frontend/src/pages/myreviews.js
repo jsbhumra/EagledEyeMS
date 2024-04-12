@@ -24,7 +24,7 @@ export default function MyReviews(){
 
     async function getUser(){
         const token = Cookies.get("token")
-        const response = await fetch('http://localhost:3000/api/users/me', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/me`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -45,7 +45,7 @@ export default function MyReviews(){
 
     async function getData(){
         const token = Cookies.get("token")
-        const response = await fetch('http://localhost:3000/api/reviews/getmyreviews', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reviews/getmyreviews`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',

@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 
 async function toggleLike(id) {
   const token = Cookies.get("token")
-  const response = await fetch('http://localhost:3000/api/reviews/likeunlike', {
+  const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reviews/likeunlike`, {
     method: 'POST',
     body: JSON.stringify({ id }),
     headers: {

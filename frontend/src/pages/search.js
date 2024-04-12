@@ -28,7 +28,7 @@ export default function Search(){
 
     async function getReviews(){
         const token = Cookies.get("token")
-        const response = await fetch('http://localhost:3000/api/reviews/getreviews', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reviews/getreviews`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -46,7 +46,7 @@ export default function Search(){
 
     async function getUser(){
         const token = Cookies.get("token")
-        const response = await fetch('http://localhost:3000/api/users/me', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/me`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',

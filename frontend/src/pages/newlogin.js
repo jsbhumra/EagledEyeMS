@@ -8,9 +8,11 @@ function LogInForm() {
   const [isLoading, setIsLoading] = useState(true);
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
+  console.log(process.env)
+  console.log(process.env.REACT_APP_BACKEND_URL)
 
   async function signIn(email, password) {
-    const response = await fetch('http://localhost:3000/api/users/login', {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/login`, {
       method: 'POST',
       body: JSON.stringify({ email, password }),
       headers: {

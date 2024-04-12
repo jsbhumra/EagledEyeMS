@@ -27,7 +27,7 @@ export default function FReview()
 
   async function fetchData(){
     const token = Cookies.get("token")
-    const response = await fetch('http://localhost:3000/api/reviews/getreview', {
+    const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reviews/getreview`, {
         method: 'POST',
         body: JSON.stringify({id: id}),
         headers: {

@@ -25,7 +25,7 @@ export default function MyAcc(){
 
     async function updateProfile(img) {
         const token = Cookies.get("token")
-        const response = await fetch('http://localhost:3000/api/users/update', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/update`, {
           method: 'POST',
           body: JSON.stringify({ img }),
           headers: {
@@ -45,7 +45,7 @@ export default function MyAcc(){
 
     async function getData(){
         const token = Cookies.get("token")
-        const response = await fetch('http://localhost:3000/api/reviews/getmyreviews', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/reviews/getmyreviews`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
@@ -69,7 +69,7 @@ export default function MyAcc(){
 
     async function getUser(){
         const token = Cookies.get("token")
-        const response = await fetch('http://localhost:3000/api/users/me', {
+        const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/users/me`, {
             method: 'GET',
             headers: {
               'Content-Type': 'application/json',
